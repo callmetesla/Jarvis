@@ -29,6 +29,7 @@ def reg():
     faceD=cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
     camera=cv2.VideoCapture(0)
     co=1
+    mean,cal=0,0
     while True:
         ret,im=camera.read()
         gray=cv2.cvtColor(im,cv2.COLOR_BGR2GRAY)
@@ -38,25 +39,29 @@ def reg():
             cv2.rectangle(im,(x,y),(x+w,y+h),(255,0,0),2)
             face=gray[y:y+h,x:x+w]
             resized=cv2.resize(face,(width,height))
-            prediction=rec.predict(resized)
-            print co
+            prediction,conf=rec.predict(resized)
+            cal+=conf
+            print prediction,conf
             #cv2.rectangle(im,(x,y),(x+w,y+h),(0,255,0),3)
             #cv2.imshow("face",im)
             #cv2.waitKey(0)
             if prediction<500:
                 calculate[names[prediction]]+=1
             else:
-                print "not recognized"
+                print "Not recognized"
         if(co>15):
+            mean=cal/15
+            print mean
             break
     key, value = max(calculate.iteritems(), key=lambda x:x[1])
-    if(value==0):
+    if(value==0 or mean>700):
         print "not recognized"
         return "not recognized"
     else:
         print key
         return key
     camera.release()
+    print calculate
     cv2.destroyAllWindows()
 if __name__=="__main__":
     speak('Hello')
@@ -67,4 +72,3 @@ if __name__=="__main__":
     else:
         speak("Hello "+cont)
         subprocess.call(["python","Speech.py"])
-
