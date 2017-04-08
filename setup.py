@@ -3,7 +3,8 @@ import cv2,numpy
 import os
 datasets='datasets'
 #Narrowing down to users face
-faceDetection=cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+cascadexml='XML/haarcascade_frontalface_default.xml'
+faceDetection=cv2.CascadeClassifier(cascadexml)
 #Argument changes depending upon the camera used
 camera=cv2.VideoCapture(0)
 id=raw_input("Enter your name:")

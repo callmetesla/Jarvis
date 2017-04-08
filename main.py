@@ -26,7 +26,7 @@ def reg():
     (images,labels)=[numpy.array(lis) for lis in [images,labels]]
     rec=cv2.face.createFisherFaceRecognizer()
     rec.train(images,labels)
-    faceD=cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+    faceD=cv2.CascadeClassifier('XML/haarcascade_frontalface_default.xml')
     camera=cv2.VideoCapture(0)
     co=1
     mean,cal=0,0
@@ -42,9 +42,10 @@ def reg():
             prediction,conf=rec.predict(resized)
             cal+=conf
             print prediction,conf
-            #cv2.rectangle(im,(x,y),(x+w,y+h),(0,255,0),3)
-            #cv2.imshow("face",im)
-            #cv2.waitKey(0)
+            cv2.rectangle(im,(x,y),(x+w,y+h),(0,255,0),2)
+            cv2.putText(im,names[prediction],(x,y),cv2.FONT_HERSHEY_SIMPLEX,4,(0,255,0),2)
+            cv2.imshow("face",im)
+            cv2.waitKey(1) & 0xFF
             if prediction<500:
                 calculate[names[prediction]]+=1
             else:
@@ -54,7 +55,8 @@ def reg():
             print mean
             break
     key, value = max(calculate.iteritems(), key=lambda x:x[1])
-    if(value==0 or mean>700):
+    cv2.destroyAllWindows()
+    if(value==0 or mean>1100):
         print "not recognized"
         return "not recognized"
     else:
@@ -62,7 +64,6 @@ def reg():
         return key
     camera.release()
     print calculate
-    cv2.destroyAllWindows()
 if __name__=="__main__":
     speak('Hello')
     speak('Please look at the camera')

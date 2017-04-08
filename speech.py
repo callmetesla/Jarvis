@@ -33,7 +33,11 @@ def callback():
         os.system('mpg321 -q Notification.mp3')
         audio=r.listen(source)
     try:
-        return(str.lower(str(r.recognize_google(audio))))
+	a=(r.recognize_google(audio, show_all=True))
+	f=a['alternative'][0]['transcript']
+	return(str.lower(f.encode('ascii','ignore')))
+	#issues with google speech api.Uncomment when resolved
+        #return(str.lower(str(r.recognize_google(audio))))
     except sr.UnknownValueError:
         print("Error")
 
