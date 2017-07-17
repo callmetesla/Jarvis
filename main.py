@@ -27,7 +27,7 @@ def reg():
     rec=cv2.face.createFisherFaceRecognizer()
     rec.train(images,labels)
     faceD=cv2.CascadeClassifier('XML/haarcascade_frontalface_default.xml')
-    camera=cv2.VideoCapture(0)
+    camera=cv2.VideoCapture(1)
     co=1
     mean,cal=0,0
     while True:
@@ -55,7 +55,6 @@ def reg():
             print mean
             break
     key, value = max(calculate.iteritems(), key=lambda x:x[1])
-    cv2.destroyAllWindows()
     if(value==0 or mean>1100):
         print "not recognized"
         return "not recognized"
@@ -63,6 +62,7 @@ def reg():
         print key
         return key
     camera.release()
+    cv2.destroyAllWindows()
     print calculate
 if __name__=="__main__":
     speak('Hello')
@@ -72,4 +72,4 @@ if __name__=="__main__":
         speak("No Access")
     else:
         speak("Hello "+cont)
-        subprocess.call(["python","Speech.py"])
+        subprocess.call(["python","speech.py"])

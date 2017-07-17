@@ -6,7 +6,7 @@ datasets='datasets'
 cascadexml='XML/haarcascade_frontalface_default.xml'
 faceDetection=cv2.CascadeClassifier(cascadexml)
 #Argument changes depending upon the camera used
-camera=cv2.VideoCapture(0)
+camera=cv2.VideoCapture(1)
 id=raw_input("Enter your name:")
 if not os.path.isdir(datasets):
     os.mkdir(datasets)

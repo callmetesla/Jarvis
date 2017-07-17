@@ -9,6 +9,5 @@ def ne():
 
     		news = pagehtml.xpath('//h2[@class="esc-lead-article-title"] \
                           /a/span[@class="titletext"]/text()')
-    
 	file=open("news.txt",'w')
 	file.write("\n".join(news).encode('utf-8'))
